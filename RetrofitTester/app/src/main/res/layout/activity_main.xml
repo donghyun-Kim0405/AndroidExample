@@ -17,8 +17,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="send"
-        android:id="@+id/btn_send" />
+        android:text="api test"
+        android:id="@+id/btn_api_test" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="token test"
+        android:id="@+id/btn_token_test" />
 
     <TextView
         android:layout_width="match_parent"

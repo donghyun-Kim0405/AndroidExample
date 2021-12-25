@@ -9,4 +9,6 @@ interface RetrofitAPI {
     @POST("/test/android")
     public fun getPostCall(@Body data: PostData) : Call<PostData>
 
+    @POST("/api/android/token/test")
+    public fun getTokenTestCall(@Body testDto : AndroidTestDto) : Call<AndroidTestDto>
 }

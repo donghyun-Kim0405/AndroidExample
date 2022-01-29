@@ -30,9 +30,15 @@ class APIRepository(context : Context){
 
         //retrofit갤러리로 부터 선택한 비트맵을 파일형태로 특정 경로에 저장 -> retrofit을 통해 이미지를 업로드할때 사용
         fileManager.createImageFile(image)
-        val fileName : String = "testImage"
 
+        val fileName : String = "testImage.jpg" //서버에 저장되는 파일명
+
+        //fileManager.getFile() -> 미리 지정해둔 특정 파일 하나에 해당
         var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), fileManager.getFile())
+
+        //createFoemData에 지정한 name -> (Spring Boot) files.getName() 메서드로 얻는 이름
+        //fileName 변수에 저장되어있는 문자열 -> Server에 저장되는 파일명(확장자포함)
+        //requestBody -> imageFile에 해당
         var body : MultipartBody.Part = MultipartBody.Part.createFormData("image", fileName, requestBody)
 
         var gson : Gson =  GsonBuilder()

@@ -74,6 +74,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,"try send image", Toast.LENGTH_SHORT).show()
         }
 
+        binding.btnUploadString.setOnClickListener {
+            repository.uploadString()
+            Toast.makeText(applicationContext,"try send String", Toast.LENGTH_SHORT).show()
+        }
+
+
+
     }//onCreate
 
     private fun getImageFromGallery(){

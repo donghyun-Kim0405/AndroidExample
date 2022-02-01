@@ -63,10 +63,43 @@ class APIRepository(context : Context){
             }
 
         })
+    }//uploadImage
+
+
+    public fun uploadString(){
+
+
+        val text = "some text"
+        val requestBody = RequestBody.create(MediaType.parse("text/plain"), text)
+
+        var gson : Gson =  GsonBuilder()
+            .setLenient()
+            .create()
+
+        var retrofit =
+            Retrofit.Builder()
+                .baseUrl(BASEURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+
+        var api = retrofit.create(APIService::class.java)
+
+        val call = api.getTestCall(requestBody)
+
+        call.enqueue(object : Callback<ResponseBody>{
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Log.e(TAG, response.body().toString())
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e(TAG, t.message.toString())
+            }
+
+        })
+    }//uploadString  Test
 
 
 
 
-    }
 
 }

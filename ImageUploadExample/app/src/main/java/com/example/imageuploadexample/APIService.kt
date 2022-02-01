@@ -14,4 +14,9 @@ interface APIService {
     @POST("/api/test/uploadImage")
     public fun getUploadImageCall(@Part image : MultipartBody.Part) : Call<ResponseBody>
 
+
+    @Multipart
+    @POST("/api/test/uploadString")
+    public fun getTestCall(@Part("testData") param: RequestBody?): Call<ResponseBody>
+
 }

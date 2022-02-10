@@ -9,4 +9,7 @@
 |<p>Firebase Console Messaging</p><p>4</p>|![](./readmeImages/8.png)|
 |<p>Firebase Console Messaging</p><p>5</p>|![](./readmeImages/9.png)|
 |결과|![](./readmeImages/10.jpg)|
+|getToken|![](./readmeImages/13.jpg)|
+|특정 기기로 전송|![](./readmeImages/11.jpg)|
+|특정 기기로 전송|![](./readmeImages/12.jpg)|
 

@@ -1,0 +1,4 @@
+1. Application class를 상속받는 class 추가
+2. Manifest에 android:name=".customApplication" 추가
+3. Context를 이용한 접근 -> MainActivity의 CustomApplcation class참고
+

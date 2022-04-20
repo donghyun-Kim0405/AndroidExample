@@ -1,0 +1,58 @@
+
+
+Android UI 동작 
+
+Android UI처리는 싱글쓰레드 모델 동작 
+메인 쓰레드가 아닌 다른 쓰레드에서 UI업데이트 하는 행위 불가능
+-> MainThread == UI Thread
+
+
+Single Thread?
+-> 사용자와 상호 작용중 UI동작이 block되는 것을 막기위해 
+-> 시간이 오래 걸리는 작업은 다른 Thread를 생성하여 수행해야함 
+
+
+Thread 통신
+-> 다른 쓰레드에서 메인 쓰레드로 결과를 전송하는 방식 
+-> Looper와 Handler사용 
+
+
+Looper
+-> 하나의 쓰레드는 오직 하나의 Looper를 가진다
+-> 즉 Looper는 오직 하나의 Thread를 담당
+
+
+MessageQueue
+-> 각 Thread의 Looper내부에 해당 Thread가 처리해야할 동작을 FIFO방식으로 쌓는다. 
+
+
+=> 결과적으로 MessageQueue에 들어오는 메세지를 꺼내어 이를 적절한 Handler로 전달
+
+
+Message 
+-> 하나의 작은 작업 단위 
+-> MessageQueue에 Message를 적재
+-> Looper가 이를 차례대로 처리 
+
+
+---------------------------------------------------------------------
+Handler
+-> 특정 메시지를 Looper의 MessageQueue에 넣을 수 있다. 
+-> Looper가 MessageQueue에서 특정 메시지를 꺼내어 전달하면 이를 처리할 수 있다. 
+-> 중간다리 역할 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

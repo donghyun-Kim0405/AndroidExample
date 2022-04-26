@@ -1,0 +1,41 @@
+Android 작업 스케줄러 
+
+https://docs.microsoft.com/ko-kr/xamarin/android/platform/android-job-scheduler
+
+
+Android 작업 스케줄러 유형 
+
+1. JobSchehuler
+-> 애플리케이션을 대신하여 작업을 예약, 실행, 필요한 경우 취소하는데 사용되는 시스템
+
+2. JobService 
+-> 주 스레드에서 작업을 실행하는 로직으로 확장해야하는 추상 클래스
+-> 작업이 비동기적으로 수행되는 방법을 정한다. 
+
+3. JobInfo 
+-> 작업이 실행되어야 하는 경우 Android를 안내하는 조건을 보유 
+
+
+----------------------------------------------------------------
+구현 
+
+1. JobService 클래스의 코드를 캡슐화 해야한다. 
+
+2. 생명주기 메서드 숙지
+-> onStartJob(JobParameter) : Boolean 
+	= 작업을 수행하기 위해 호출되고 메인스레드에서 실행된다. 
+	= 남은 작업 = return false / 완료 = return true
+
+-> JobFinished 
+	= 해당 메서드 호출하지 않을 경우 불필요한 배터리 소모됨 
+	
+-> onStopJob
+	= 작업이 조기 중지될때 호출 
+	= 재시도 기준에 따라 일정 조정해야하는 경우 true리턴 
+
+
+----------------------------------------------------------------
+주의 
+1. Manifest에 등록해야한다. 
+
+2. JobScheduler의 최소 작업간격은 15분이다.

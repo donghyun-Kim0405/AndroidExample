@@ -1,0 +1,102 @@
+Hilt - Dependency Injection
+
+=> Google의 Dagger를 기반으로 만든 DI 라이브러리 
+
+=> 안드로이드에 특화된 라이브러리라고 할 수 있다. 
+
+=> 기존에 Dagger에서 사용되던 Annotation이 사용될수 없을수도 있다. 
+
+------------------------------------------------------------
+Library설정 
+=> app 레벨이 뿐만아니라 프로젝트 레벨에도 dependency를 추가해야 한다. 
+
+=> app 레벨에서 플러그인과 dependency를 적용한다. 
+
+=> Hilt는 JAVA8을 사용하므로 project에서 java8을 사용한다고 app레벨의 build.gradle에 추가해준다. 
+
+------------------------------------------------------------
+Application Class -@HiltAndroidApp
+
+=> Hilt를 사용하는 모든 앱은 @HiltAndroidApp으로 주석이 지정된 Application 클래스를 포함해야 한다.
+
+=> Hilt라이브러리가 Application 객체의 생명 주기에 연결되어 많은 수행을 하므로 
+
+=> 본 프로젝트에서는 HiltExampleApplication.kt 파일에 해당 
+
+------------------------------------------------------------
+Android Class에 종속항목 삽입 
+=> Hilt는 Component를 이용해 필요한 Dependency를 클래스에 제공할 수 있다. 
+
+=> @AndroidEntryPoint Annotation붙여서 Hilt가 해당 클래스에 Dependency를 제공할 수 있는 클래스의 종류는 다음과 같다. 
+	- Activity ComponentActivity를 상속받는 Activity
+	- androidx.Fragment를 상속받는 Fragment
+	- View
+	- Service
+	- BroadcastReceiver
+
+------------------------------------------------------------
+Injection
+=> Hilt는 Dependency Graph를 만들어서 필요한곳에 Dependency를 제공해주는 라이브러리 이기 때문에 특정 객체를 생성하는 방법을 Hilt가 알고 있어야 한다. 
+
+=> @Inject Annotation은 Dependency Graph를 이어준다. 
+
+=> Dependency를 제공해서 생성할 객체의 클래스에도 붙이고, 주입받을 객체에도 붙인다. 
+
+=> Injection종류
+	- Field Injection  
+	- Constructor Injection : 생성시에 어떤 클래스의 컴포넌트가 필요한지
+		정확하게 알 수 있다는 장점이 있다. 
+
+------------------------------------------------------------
+Hilt Modules - @Module로 주석이 지정된 클래스이다. 
+= @Inject Annotation사용 대신 Module사용하여 Hilt에게 원하는 Dependency를 생성하는 방법을 알려줄 수 있다. 
+
+= 위 방법은 interface나 외부 라이브러리의 객체와같이 Hilt가 객체를 어떻게 생성해야할지 모를때 사용하면 유용하다. 
+
+방법 
+	1. @Provides
+	2. @Binds 
+
+------------------------------------------------------------
+Hilt Module - 1. @Provides
+= 외부 라이브러리 사용시 유용하다. 
+= builder패턴 등을 적용할 수 있다. 
+= 본 프로젝트의 hiltProvide package 참고
+
+------------------------------------------------------------
+Hilt Module - 2. @Binds
+= interface 구현 객체를 interface자료형으로 주입받을 때 사용 
+= 본 프로젝트의 hiltBind package 참고 
+------------------------------------------------------------
+qualifier
+= interface를 구현한 여러 객체를 별도로 지정하여 생성하고자 할때 사용
+= 본 프로젝트의 qualifier package참고 
+
+
+
+------------------------------------------------------------
+@Singleton
+
+Repository Pattern에서 Repository는 View, ViewModel과 별개로 존재해야하며, 어디서든 접근가능해야하므로 Singleton Component로 작성한다. 
+=> InstallIn(SingletonComponent::class)를 통해 싱글턴 모듈임을 나타낸다. 
+
+=> Repository class상단에 @Singleton을 추가한다. 
+
+------------------------------------------------------------
+
+주의 
+
+1. Hilt에 의해 주입받는 변수 객체는 private으로 선언할 수 없다. 
+
+2. consturctor Injection예외 
+	-> Interface를 Constructor Injection에 사용하는 것은 금지되어 있음
+
+3. 외부 라이브러리 클래스의 객체를 Inject하는것은 금지 되어 있다. 
+	-> ex) retrofit  
+	-> 자신이 만든 클래스가 아닌곳에 @Inject annotation이 있는지 알수 없음
+
+4. 의존성 주입시 서로 다른 Component를 기반으로 주입할 경우 충돌 오류 발생 
+ex) SingletonComponent vs ActivityComponent 
+
+
+------------------------------------------------------------

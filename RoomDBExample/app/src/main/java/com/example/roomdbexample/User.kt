@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class User (
     var name: String,
     var age: String,
-    var phone: String
+    var phone: String,
+    var items: List<TestData>
     ){
     @PrimaryKey(autoGenerate = true) var id: Int = 0
     //auto generated -> 자동으로 아이디 부여

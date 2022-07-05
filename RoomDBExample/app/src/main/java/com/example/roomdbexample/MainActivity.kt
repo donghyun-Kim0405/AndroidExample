@@ -43,7 +43,16 @@ class MainActivity : AppCompatActivity() {
         name = binding.editName.text.toString()
         age = binding.editAge.text.toString()
         phone = binding.editPhone.text.toString()
-        return User(name!!, age!!, phone!!)
+
+        return User(name!!, age!!, phone!!, createTestData())
+    }
+
+    private fun createTestData() : List<TestData>{
+        val temp = ArrayList<TestData>()
+        for (i in 0..100) {
+            temp.add(TestData(i.toString()))
+        }
+        return temp as List<TestData>
     }
 
     private fun insertUserData(user: User){

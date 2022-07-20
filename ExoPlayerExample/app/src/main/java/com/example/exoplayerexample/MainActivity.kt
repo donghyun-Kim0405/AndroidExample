@@ -5,20 +5,24 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.exoplayerexample.databinding.ActivityMainBinding
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.PlaybackParameters
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.extractor.Extractor
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val SAMPLE_URL : String = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    private val SAMPLE_URL : String = "https://kpugtbjqerod11514558.cdn.ntruss.com/live/video/ls-20220714132814-ViOEF/1080p-16-9/playlist.m3u8"
 
     private lateinit var binding : ActivityMainBinding
     private var player : SimpleExoPlayer? = null
@@ -39,8 +43,26 @@ class MainActivity : AppCompatActivity() {
         initializePlayer()
         setMediaSource()
         if(player != null) player!!.prepare(mediaSource)
+        player!!.playWhenReady = true
 
+        /*CoroutineScope(Dispatchers.Main).launch {
 
+            var count = 0
+            while(count<100){
+                count+= 1
+                delay(1000)
+                if(player != null) player!!.prepare(mediaSource)
+
+            }
+        }*/
+
+        player!!.addListener(object: Player.EventListener{
+            override fun onPlayerError(error: ExoPlaybackException?) {
+                super.onPlayerError(error)
+                player!!.prepare(mediaSource)
+
+            }
+        })
 
         binding.btnStart.setOnClickListener {
             player?.playWhenReady = playWhenReady
@@ -87,7 +109,9 @@ class MainActivity : AppCompatActivity() {
         if(uri.getLastPathSegment()!!.contains("mp3") || uri.getLastPathSegment()!!.contains("mp4")){
             return ExtractorMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent))
                 .createMediaSource(uri)
-        }else{
+        }else if(uri.getLastPathSegment()!!.contains("m3u8")){
+            return HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent)).createMediaSource(uri)
+        } else{
             return ExtractorMediaSource.Factory(DefaultDataSourceFactory(this, userAgent))
                 .createMediaSource(uri)
         }
